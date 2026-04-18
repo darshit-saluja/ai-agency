@@ -714,6 +714,19 @@ nav.scrolled {
   border-color: var(--accent-violet);
 }
 
+.calendar-widget .btn-primary {
+  background-color: var(--accent-violet);
+  color: #FFFFFF;
+  border: none;
+  transition: none; /* Disables the hover transition */
+}
+
+.calendar-widget .btn-primary:hover {
+  background-color: var(--accent-violet);
+  transform: none; /* Disables the hover lift */
+  box-shadow: 0 4px 12px rgba(143, 97, 246, 0.3);
+}
+
 .footer-logo {
   height: 65px;
   margin-bottom: 32px;
