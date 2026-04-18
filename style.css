@@ -77,12 +77,16 @@ h4 {
 
 section {
   padding: 160px 0;
-  opacity: 0;
-  transform: translateY(20px);
+  /* Removed aggressive opacity:0 to ensure content reliability */
   transition: var(--transition-clinical);
 }
 
-section.visible {
+.fade-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -233,12 +237,19 @@ nav.scrolled {
 .hero-visual {
   position: absolute;
   top: 0;
-  right: -5%;
-  width: 55%;
+  right: 0;
+  width: 100%;
   height: 100%;
   z-index: 1;
-  mask-image: radial-gradient(circle at center, black, transparent 80%);
-  opacity: 0.4;
+  background: radial-gradient(circle at 70% 30%, rgba(143, 97, 246, 0.05), transparent 60%);
+  overflow: hidden;
+}
+
+#hero-canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  filter: blur(1px);
 }
 
 /* Marquee */
@@ -665,6 +676,10 @@ nav.scrolled {
 @media (max-width: 968px) {
   #menu-toggle {
     display: flex;
+  }
+
+  #menu-toggle {
+    display: flex !important; /* Explicitly restored missing toggle */
   }
 
   .nav-links {

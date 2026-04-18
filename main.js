@@ -1,4 +1,84 @@
-// Constants & State
+// --- Neural Mesh Animation for Hero ---
+const initHeroAnimation = () => {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    let width, height, particles;
+    const particleCount = 60;
+    const maxVelocity = 0.5;
+    const lineDist = 150;
+
+    const resize = () => {
+        width = canvas.width = canvas.parentElement.offsetWidth;
+        height = canvas.height = canvas.parentElement.offsetHeight;
+    };
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * maxVelocity;
+            this.vy = (Math.random() - 0.5) * maxVelocity;
+            this.radius = Math.random() * 2 + 1;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(143, 97, 246, 0.5)';
+            ctx.fill();
+        }
+    }
+
+    const createParticles = () => {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    };
+
+    const animate = () => {
+        ctx.clearRect(0, 0, width, height);
+        
+        particles.forEach((p, i) => {
+            p.update();
+            p.draw();
+
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < lineDist) {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(143, 97, 246, ${0.1 * (1 - dist / lineDist)})`;
+                    ctx.stroke();
+                }
+            }
+        });
+
+        requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+    createParticles();
+    animate();
+};
+
+// --- Core State & Logic ---
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 const today = new Date();
@@ -24,7 +104,8 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('section:not(.sticky-section)').forEach(section => observer.observe(section));
+// Target segments with explicit reveal class for reliability
+document.querySelectorAll('.fade-reveal').forEach(el => observer.observe(el));
 
 // Navbar Scroll Effect
 window.addEventListener('scroll', () => {
@@ -38,7 +119,8 @@ const menuToggle = document.getElementById('menu-toggle');
 const body = document.body;
 
 if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         body.classList.toggle('mobile-active');
     });
 }
@@ -50,8 +132,14 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
-// --- Smooth Sticky Cards Reveal (Refined Observer) ---
-// High-granularity thresholds for butter-smooth transitions
+// Close menu if clicking outside
+document.addEventListener('click', (e) => {
+    if (body.classList.contains('mobile-active') && !e.target.closest('.nav-links') && !e.target.closest('#menu-toggle')) {
+        body.classList.remove('mobile-active');
+    }
+});
+
+// --- Smooth Sticky Cards Reveal ---
 const cardObserverOptions = {
     threshold: Array.from({ length: 101 }, (_, i) => i / 100),
     rootMargin: "0px 0px -20% 0px"
@@ -62,10 +150,8 @@ const cardObserver = new IntersectionObserver((entries) => {
         const card = entry.target;
         const ratio = entry.intersectionRatio;
 
-        // Smoothly map ratio to visual properties
-        // We start visible effects at 0.1 ratio
         if (ratio > 0.05) {
-            const easedRatio = Math.min(1, ratio * 1.5); // Accelerate the fade-in slightly
+            const easedRatio = Math.min(1, ratio * 1.5);
             card.style.opacity = easedRatio;
             const translateY = 40 * (1 - easedRatio);
             const scale = 0.96 + (0.04 * easedRatio);
@@ -87,6 +173,7 @@ document.querySelectorAll('.service-reveal-card').forEach(card => cardObserver.o
 
 // --- Functional Calendar ---
 function renderCalendar(month, year) {
+    if (!calendarGrid) return;
     const labels = Array.from(calendarGrid.querySelectorAll('.cal-label'));
     calendarGrid.innerHTML = '';
     labels.forEach(label => calendarGrid.appendChild(label));
@@ -144,19 +231,8 @@ timeSlots.forEach(slot => {
     });
 });
 
-// Initial Render
-renderCalendar(currentMonth, currentYear);
-
-// Smooth Scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            window.scrollTo({
-                top: target.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    });
+// Initialization
+document.addEventListener('DOMContentLoaded', () => {
+    initHeroAnimation();
+    renderCalendar(currentMonth, currentYear);
 });
