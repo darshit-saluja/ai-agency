@@ -739,7 +739,36 @@ nav.scrolled {
   }
 
   .hero h1 {
-    font-size: 2.8rem;
+    font-size: 2.3rem; /* Significantly reduced to fit all mobile screens */
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 100% !important;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+
+  .hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-btns .btn {
+    width: 100%;
+    max-width: 300px;
   }
 
   .sticky-section {
@@ -755,8 +784,9 @@ nav.scrolled {
     margin-bottom: 40px;
   }
 
-  .cards-container {
-    gap: 60px;
+  .sticky-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 24px;
   }
 
   .service-reveal-card {
@@ -805,54 +835,53 @@ nav.scrolled {
     grid-template-columns: 1fr;
   }
 
-  /* ROI Table Zero-Scroll Density */
+  /* ROI Table Full-Width Expansion */
   .roi-table-container {
     display: block;
+    width: 100%;
     overflow-x: hidden;
-    /* Lock scroll */
-    margin: 40px -10px 0;
-    padding: 0 10px 20px;
+    margin: 40px 0 0;
+    padding: 0;
     border: none;
     background: transparent;
   }
 
   .roi-table {
+    width: 100%;
     min-width: 100%;
-    /* No more 850px constriction */
     display: block;
     background: var(--bg-secondary);
     border: 1px solid var(--border-secondary);
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
   }
 
   .roi-row {
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr;
-    /* Proportionally balanced for mobile */
     white-space: normal;
-    /* Allow text wrap for long metrics */
     width: 100%;
-    padding: 16px 10px;
-    gap: 8px;
+    padding: 14px 8px;
+    gap: 4px;
     align-items: center;
     border-bottom: 1px solid var(--border-secondary);
   }
 
   .roi-label {
-    font-size: 0.98rem;
+    font-size: 0.85rem; /* Balanced size */
     font-weight: 700;
+    line-height: 1.2;
     color: var(--text-primary);
     width: auto;
     padding: 0;
   }
 
   .roi-val {
-    font-size: 0.80rem;
+    font-size: 0.75rem; /* Balanced size */
     color: var(--text-secondary);
     width: auto;
-    padding: 4px 6px;
-    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 4px;
+    background: rgba(255, 255, 255, 0.02);
     border-radius: 4px;
     text-align: center;
   }
