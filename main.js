@@ -9,12 +9,18 @@ const initShadowAnimation = () => {
     let lastTime = 0;
 
     const animate = (time) => {
-        // Significantly faster hue rotation
-        hue = (hue + 1.2) % 360;
+        // High-velocity hue rotation for shimmering effect
+        hue = (hue + 1.5) % 360;
         matrix.setAttribute('values', hue);
 
-        // High-frequency seed shifting for aggressive undulation
-        if (time - lastTime > 40) {
+        // LIQUID FLOW: Smoothly undulate the baseFrequency for a non-static, flowing look
+        // This avoids the "static image" jumps and creates a continuous morphing effect
+        const freqX = 0.001 + Math.sin(time / 1000) * 0.0003;
+        const freqY = 0.004 + Math.cos(time / 1500) * 0.0008;
+        turb.setAttribute('baseFrequency', `${freqX},${freqY}`);
+
+        // Occasional seed shift to ensure infinite non-repetition
+        if (time - lastTime > 100) {
             seed = (seed + 1) % 1000;
             turb.setAttribute('seed', seed);
             lastTime = time;
