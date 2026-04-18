@@ -789,6 +789,10 @@ nav.scrolled {
     margin-bottom: 24px;
   }
 
+  .cards-container {
+    gap: 40px; /* Targeted reduction of vertical spacing */
+  }
+
   .service-reveal-card {
     position: relative;
     top: 0 !important;
