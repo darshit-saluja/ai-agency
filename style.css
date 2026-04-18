@@ -160,9 +160,17 @@ nav {
 }
 
 /* Toggle Animation to X */
-.mobile-active #menu-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.mobile-active #menu-toggle span:nth-child(2) { opacity: 0; }
-.mobile-active #menu-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+.mobile-active #menu-toggle span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-active #menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-active #menu-toggle span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
 
 nav.scrolled {
   padding: 8px 0;
@@ -223,7 +231,7 @@ nav.scrolled {
 }
 
 .hero h1 {
-  font-size: 4.5rem;
+  font-size: 3.8rem;
   margin-bottom: 24px;
 }
 
@@ -241,7 +249,9 @@ nav.scrolled {
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: radial-gradient(circle at 70% 30%, rgba(143, 97, 246, 0.05), transparent 60%);
+  background:
+    radial-gradient(circle at 70% 30%, rgba(143, 97, 246, 0.15), transparent 60%),
+    radial-gradient(circle at 30% 70%, rgba(143, 97, 246, 0.05), transparent 50%);
   overflow: hidden;
 }
 
@@ -679,7 +689,8 @@ nav.scrolled {
   }
 
   #menu-toggle {
-    display: flex !important; /* Explicitly restored missing toggle */
+    display: flex !important;
+    /* Explicitly restored missing toggle */
   }
 
   .nav-links {
@@ -687,11 +698,13 @@ nav.scrolled {
     top: 0;
     right: -100%;
     width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
+    height: 102vh;
+    /* Slight overdraw to cover browser bars */
+    background: rgba(0, 0, 0, 0.98);
     backdrop-filter: blur(25px);
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+    /* Better distribution for mobile menu content */
     padding: 80px 40px;
     transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 1000;
@@ -713,10 +726,20 @@ nav.scrolled {
     font-size: 1.25rem;
     padding: 20px;
     margin-top: 40px;
+    background-color: var(--accent-violet);
+    /* Permanent Purple */
+    color: #FFFFFF;
+    transition: none;
+    /* No hover shift */
+  }
+
+  .nav-links .btn-primary:hover {
+    transform: none;
+    background-color: var(--accent-violet);
   }
 
   .hero h1 {
-    font-size: 3.5rem;
+    font-size: 2.8rem;
   }
 
   .sticky-section {
@@ -760,7 +783,8 @@ nav.scrolled {
 
   .moat-visual {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Pure Square */
+    aspect-ratio: 1 / 1;
+    /* Pure Square */
     height: auto;
     margin-bottom: 24px;
     border-radius: 32px;
@@ -781,37 +805,61 @@ nav.scrolled {
     grid-template-columns: 1fr;
   }
 
-  /* ROI Table Zero-Constriction Horizontal Scroll */
+  /* ROI Table Zero-Scroll Density */
   .roi-table-container {
     display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 40px -20px 0;
-    padding: 0 20px 20px;
+    overflow-x: hidden;
+    /* Lock scroll */
+    margin: 40px -10px 0;
+    padding: 0 10px 20px;
     border: none;
     background: transparent;
   }
 
   .roi-table {
-    min-width: 850px; /* Forces enough width for data */
+    min-width: 100%;
+    /* No more 850px constriction */
     display: block;
     background: var(--bg-secondary);
     border: 1px solid var(--border-secondary);
-    border-radius: 24px;
+    border-radius: 16px;
     overflow: hidden;
   }
 
   .roi-row {
-    display: flex;
-    white-space: nowrap;
-    width: max-content; /* Background expansion */
-    min-width: 100%;
-    padding: 24px 30px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    /* Proportionally balanced for mobile */
+    white-space: normal;
+    /* Allow text wrap for long metrics */
+    width: 100%;
+    padding: 16px 10px;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-secondary);
   }
 
-  .roi-label, .roi-val {
-    flex: 0 0 auto;
-    width: 280px; /* Fixed width prevents constriction */
-    padding: 0 20px;
+  .roi-label {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    width: auto;
+    padding: 0;
+  }
+
+  .roi-val {
+    font-size: 0.80rem;
+    color: var(--text-secondary);
+    width: auto;
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .roi-val.highlight {
+    color: var(--accent-violet);
+    background: var(--accent-violet-muted);
+    font-weight: 700;
   }
 }
