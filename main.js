@@ -1,81 +1,29 @@
-// --- Neural Mesh Animation for Hero ---
-const initHeroAnimation = () => {
-    const canvas = document.getElementById('hero-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    
-    let width, height, particles;
-    const particleCount = 60;
-    const maxVelocity = 0.5;
-    const lineDist = 150;
+// --- Ethereal Shadows Animation for Hero ---
+const initShadowAnimation = () => {
+    const matrix = document.getElementById('matrix-element');
+    const turb = document.getElementById('turb-element');
+    if (!matrix || !turb) return;
 
-    const resize = () => {
-        width = canvas.width = canvas.parentElement.offsetWidth;
-        height = canvas.height = canvas.parentElement.offsetHeight;
-    };
+    let hue = 0;
+    let seed = 0;
+    let lastTime = 0;
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * maxVelocity;
-            this.vy = (Math.random() - 0.5) * maxVelocity;
-            this.radius = Math.random() * 2 + 1;
+    const animate = (time) => {
+        // Significantly faster hue rotation
+        hue = (hue + 1.2) % 360;
+        matrix.setAttribute('values', hue);
+
+        // High-frequency seed shifting for aggressive undulation
+        if (time - lastTime > 40) {
+            seed = (seed + 1) % 1000;
+            turb.setAttribute('seed', seed);
+            lastTime = time;
         }
-
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-
-            if (this.x < 0 || this.x > width) this.vx *= -1;
-            if (this.y < 0 || this.y > height) this.vy *= -1;
-        }
-
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(143, 97, 246, 0.5)';
-            ctx.fill();
-        }
-    }
-
-    const createParticles = () => {
-        particles = [];
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-    };
-
-    const animate = () => {
-        ctx.clearRect(0, 0, width, height);
-        
-        particles.forEach((p, i) => {
-            p.update();
-            p.draw();
-
-            for (let j = i + 1; j < particles.length; j++) {
-                const p2 = particles[j];
-                const dx = p.x - p2.x;
-                const dy = p.y - p2.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < lineDist) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(143, 97, 246, ${0.1 * (1 - dist / lineDist)})`;
-                    ctx.stroke();
-                }
-            }
-        });
 
         requestAnimationFrame(animate);
     };
 
-    window.addEventListener('resize', resize);
-    resize();
-    createParticles();
-    animate();
+    requestAnimationFrame(animate);
 };
 
 // --- Core State & Logic ---
@@ -233,6 +181,6 @@ timeSlots.forEach(slot => {
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
-    initHeroAnimation();
+    initShadowAnimation();
     renderCalendar(currentMonth, currentYear);
 });

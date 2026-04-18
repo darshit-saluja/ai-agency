@@ -216,8 +216,9 @@ nav.scrolled {
 }
 
 .hero-content {
+  position: relative;
   max-width: 800px;
-  z-index: 2;
+  z-index: 10;
 }
 
 .hero-tag {
@@ -242,24 +243,38 @@ nav.scrolled {
   max-width: 580px;
 }
 
-.hero-visual {
+.shadow-overlay-container {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
-  background:
-    radial-gradient(circle at 70% 30%, rgba(143, 97, 246, 0.15), transparent 60%),
-    radial-gradient(circle at 30% 70%, rgba(143, 97, 246, 0.05), transparent 50%);
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
-#hero-canvas {
-  width: 100%;
-  height: 100%;
-  opacity: 0.6;
-  filter: blur(1px);
+.shadow-mask-layer {
+  position: absolute;
+  inset: -120px; /* Increased overdraw to account for higher displacement */
+  background-color: var(--accent-violet);
+  mask-image: url('https://framerusercontent.com/images/ceBGguIpUU8luwByxuQz79t7To.png');
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  filter: url(#ethereal-shadow-filter) blur(6px); /* Sharper focus */
+  opacity: 0.8; /* Higher visibility */
+}
+
+.shadow-noise-layer {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png");
+  background-size: 200px;
+  background-repeat: repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Marquee */
