@@ -98,6 +98,7 @@ section {
   justify-content: center;
   padding: 12px 28px;
   border-radius: 8px;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
@@ -329,27 +330,29 @@ nav.scrolled {
   }
 }
 
-.tool-item {
+.marquee-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: var(--text-tertiary);
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.marquee-logo img,
+.marquee-logo svg {
+  height: 38px; /* High-fidelity standardized height */
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  /* Clinical Monochrome Filter: Ensures everything is pure white */
+  filter: brightness(0) invert(1);
+  opacity: 0.5;
   transition: var(--transition-clinical);
 }
 
-.tool-item:hover {
-  color: #FFFFFF;
-}
-
-.tool-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--accent-violet);
-  border-radius: 50%;
-  opacity: 0.5;
+.marquee-logo:hover img,
+.marquee-logo:hover svg {
+  opacity: 1;
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px var(--accent-violet-muted));
 }
 
 /* Services Sticky Reveal */
