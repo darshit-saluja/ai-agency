@@ -129,7 +129,7 @@ nav {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 12px 0; /* Reduced from 24px */
+  padding: 12px 0;
   z-index: 1000;
   transition: var(--transition-clinical);
 }
@@ -156,6 +156,8 @@ nav {
 }
 
 /* Toggle Animation to X */
+.mobile-active #menu-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.mobile-active #menu-toggle span:nth-child(2) { opacity: 0; }
 .mobile-active #menu-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 nav.scrolled {
@@ -174,13 +176,6 @@ nav.scrolled {
 .logo img {
   height: 65px;
 }
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-}
-.mobile-active #menu-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 .nav-links {
   display: flex;
@@ -712,8 +707,8 @@ nav.scrolled {
   .sticky-section {
     flex-direction: column;
     min-height: auto;
-    gap: 80px; /* Increased gap */
-    padding: 80px 20px; /* More padding as requested */
+    gap: 80px;
+    padding: 80px 20px;
   }
 
   .sticky-header {
@@ -723,7 +718,7 @@ nav.scrolled {
   }
 
   .cards-container {
-    gap: 60px; /* Increased card gap */
+    gap: 60px;
   }
 
   .service-reveal-card {
@@ -732,18 +727,34 @@ nav.scrolled {
     height: auto;
     opacity: 1 !important;
     transform: none !important;
-    padding: 40px 30px; /* Room for content to breathe */
+    padding: 40px 30px;
+  }
+
+  /* The Moat Mobile Hierarchy */
+  .moat-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .moat-mobile-title {
+    text-align: left !important;
+    font-size: 2.5rem !important;
+    margin-bottom: 32px !important;
   }
 
   .moat-visual {
-    order: -1;
-    height: 350px;
-    margin-top: 0;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Pure Square */
+    height: auto;
     margin-bottom: 24px;
+    border-radius: 32px;
   }
 
   .moat-visual img {
-    object-position: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .bottleneck-grid,
@@ -755,18 +766,35 @@ nav.scrolled {
     grid-template-columns: 1fr;
   }
 
+  /* ROI Table Zero-Constriction Horizontal Scroll */
   .roi-table-container {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin: 40px -20px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 24px;
-    border: 1px solid var(--border-secondary);
+    padding: 0 20px 20px;
+    border: none;
+    background: transparent;
   }
 
   .roi-table {
-    min-width: 700px;
+    min-width: 850px; /* Forces enough width for data */
+    display: block;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .roi-row {
+    display: flex;
+    white-space: nowrap;
+    padding: 24px 30px;
+  }
+
+  .roi-label, .roi-val {
+    flex: 0 0 auto;
+    width: 280px; /* Fixed width prevents constriction */
+    padding: 0 20px;
   }
 }
