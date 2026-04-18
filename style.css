@@ -789,6 +789,8 @@ nav.scrolled {
   .roi-row {
     display: flex;
     white-space: nowrap;
+    width: max-content; /* Background expansion */
+    min-width: 100%;
     padding: 24px 30px;
   }
 
